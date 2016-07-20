@@ -11,6 +11,6 @@
     function run($state, $rootScope) {
         $rootScope.hasResults = false;
         $state.go('index');
-
     }
+
 })();

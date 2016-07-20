@@ -1,14 +1,14 @@
 <div class="spinner" ng-if="rstCtrl.fetchingRest"></div>
-<header>
+<header ng-class="{disableScroll: !hasResults, enableScroll: hasResults}">
     <div class="container-fluid top-container">
         <form class="well form-horizontal" action="" onsubmit="return false" id="search_form">
             <fieldset>
-                <legend><h1 class="contrast-scheme" tabindex="0">Search for Restaurants</h1></legend>
+                <legend><h1 class="contrast-scheme" tabindex="0">Search for Restaurants in US</h1></legend>
                 <div class="form-group">
-                    <label class="col-md-4 control-label contrast-scheme label-width" for="searchbox">Search:</label>
+                    <label class="col-md-4 control-label contrast-scheme label-width" for="searchbox">Select State:</label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
-                            <input id="searchbox" name="searchbox" type="search" class="form-control" ng-keyup="$event.keyCode == 13 && rstCtrl.getRestuarants()" ng-model="rstCtrl.searchQuery" required placeholder="Search by Location, Cuisine, Keyword">
+                            <input type="text" tabindex="0" autocomplete="off" id="searchbox" ng-model="rstCtrl.searchQuery" uib-typeahead="state for state in rstCtrl.states | filter:$viewValue | limitTo:10" class="form-control">
                             <span tabindex="0" aria-label="Search Button" class="input-group-addon" ng-keyup="$event.keyCode == 13 && rstCtrl.getRestuarants()" ng-click="rstCtrl.getRestuarants()"><i class="fa fa-search" aria-hidden="true"></i></span>
                         </div>
                     </div>
@@ -18,15 +18,8 @@
                     <label class="col-md-4 control-label contrast-scheme label-width" aria-hidden="true" for="filters_menu">Filter By: </label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
-                            <select role="listbox" tabindex="-1" class="form-control btn btn-default" id="filters_menu" ng-change="rstCtrl.sortBy(rstCtrl.typeFilter)" ng-model="rstCtrl.typeFilter" ng-disabled="!rstCtrl.restaurants.length">
-                                <option aria-posinset="1" aria-setsize="6" value="">None</option>
-                                <option aria-posinset="2" aria-setsize="6" value="cuisine">Cuisine</option>
-                                <option aria-posinset="3" aria-setsize="6" value="ratingH">Rating-High</option>
-                                <option aria-posinset="4" aria-setsize="6" value="rating">Rating-Low</option>
-                                <option aria-posinset="5" aria-setsize="6" value="price">Price-Low</option>
-                                <option aria-posinset="6" aria-setsize="6" value="priceH">Price-High</option>
-                            </select>
-                            <input type="button" value="Set" aria-label="Set Filter" class="btn btn-default" tabindex="0" ng-click="rstCtrl.setFocusToResults()">
+                            <input type="text" tabindex="0" autocomplete="off" id="filters_menu" ng-model="rstCtrl.typeFilter" uib-typeahead="state for state in rstCtrl.filters" typeahead-min-length="0" class="form-control">
+                            <span tabindex="0"  aria-label="Set Filter Button" class="input-group-addon" ng-click="rstCtrl.sortBy(rstCtrl.typeFilter); rstCtrl.setFocusToResults()" ng-keyup="$event.keyCode == 13 && rstCtrl.sortBy(rstCtrl.typeFilter);$event.keyCode == 13 && rstCtrl.setFocusToResults()"><i class="fa fa-filter" aria-hidden="true"></i></span>
                         </div>
                     </div>
                 </div>
@@ -46,7 +39,6 @@
 
             <a href="#filters_menu" ng-click="rstCtrl.setFocusToFilterMenu()" ng-keyup="$event.keyCode == 13 && rstCtrl.setFocusToFilterMenu()" ng-if="rstCtrl.restaurants.length > 0" class="skip-link-nonab">Select A Filter</a>
             <result-directive id="result-{{$index}}" tabindex="0" class="col-lg-offset-4 col-lg-4 col-md-offset-4 col-md-4 col-sm-12 col-xs-12" restaurant="restaurant" ng-if="rstCtrl.restaurants.length > 0" ng-repeat="restaurant in rstCtrl.restaurants"></result-directive>
-            <div tabindex="0" id="noResults" aria-label="No Results Found" ng-if="rstCtrl.restaurants.length <= 0">No Results Found</div>
         </div>
     </div>
 </main>

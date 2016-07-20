@@ -8,16 +8,12 @@ import http from 'http';
 import path from 'path';
 import request from 'request';
 import bodyParser from 'body-parser';
-import googleImages from 'google-images';
-
-var googleSearchClient = googleImages('009016416404207732107:2wk43t8zaiu', 'AIzaSyBH5LH7IXNyN4MAAdCMv0_3Q2dmHnnuiOo');
+import Yelp from 'yelp';
 
 const compressor = compression({
     flush: zlib.Z_PARTIAL_FLUSH
 });
-
 export default class Server {
-
     constructor(port) {
         this._app = express();
         this._port = port;
@@ -27,35 +23,27 @@ export default class Server {
         this._app.use(bodyParser.json());
         this._serveStaticFiles();
         this._app.post('/getRest', (req, res) => {
-            var query = req.body.query;
-            var options = {
-                url: `https://developers.zomato.com/api/v2.1/search?q=${query}`,
-                headers: {'user-key': 'e17bde5f898716f61c1e997e5011d240'}
-            };
-            request(options, function(err, response, body) {
-                if (!err && response.statusCode == 200) {
-                    res.json(JSON.parse(body, null, 4));
-                }
-            })
+            console.log(req.body.query);
+            var query = req.body.query.replace(" ", '%2B');
+            yelp.search({ term: 'restaurant', location: query })
+                .then(function (data) {
+                    res.json(data);
+                })
+                .catch(function (err) {
+                    console.error(err);
+                });
         });
-
         this._app.post('/getReviews', (req, res) => {
             var id = req.body.restID;
-            var options = {
-                url: `https://developers.zomato.com/api/v2.1/reviews?res_id=${id}`,
-                headers: {'user-key': 'e17bde5f898716f61c1e997e5011d240'}
-            };
-            request(options, function(err, response, body) {
-                if (!err && response.statusCode == 200) {
-                    res.json(JSON.parse(body, null, 4));
-                }
-            })
-        });
 
+            yelp.business(id)
+                .then((function (data) {
+                    res.json(data);
+                }));
+        });
         this._app.get('*', (req, res) => {
             res.sendFile(path.resolve(__dirname, '../public/index.html'));
         });
-
     }
     _serveStaticFiles() {
         this._app.use('/js', express.static('../public/js'));
@@ -74,3 +62,9 @@ export default class Server {
         }
     }
 }
+var yelp = new Yelp({
+    consumer_key: '3HyZbHykh_9ScFKaFRa8uA',
+    consumer_secret: 'HMGYEnperxjJz_Pta11KjxJncmw',
+    token: 'g3tEIcMeOxLFH6nkZJEpF_56c5NXUWDu',
+    token_secret: '8R3naCTfgk_qjoyFCC4kte0VClk'
+});

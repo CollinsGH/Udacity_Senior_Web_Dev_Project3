@@ -1,11 +1,13 @@
 <div class="panel panel-primary review-panel">
     <div class="panel-heading">
+        <img ng-if="review.user.image_url.startsWith('http') || review.user.image_url.startsWith('https')" src="{{review.user.image_url}}" alt="Profile Picture of {{review.user.name}}" />
         <h1 class="panel-title">{{review.user.name}}</h1>
     </div>
     <div class="panel-body">
-        <p>{{review.review_text}}</p>
+        <p>{{review.excerpt}}</p>
+        <p>{{review.rating}}</p>
     </div>
     <div class="panel-footer">
-        <p>Reviewed {{review.review_time_friendly}}</p>
+        <p>Reviewed {{review.time_created}}</p>
     </div>
 </div>

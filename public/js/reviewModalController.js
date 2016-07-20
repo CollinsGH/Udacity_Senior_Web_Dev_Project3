@@ -19,17 +19,17 @@
         };
         $scope.commentName = null;
         $scope.comment = null;
+        $scope.profilePic = null;
         $scope.gather = function() {
             var dateArr = new Date().toDateString().split(" ");
             var date = dateArr[1]+ " " + dateArr[2] + ", " + dateArr[3];
             $scope.review = {
-                review: {
                     user: {
-                        name: $scope.commentName
+                        name: $scope.commentName,
+                        image_url: $scope.profilePic
                     },
-                    review_text: $scope.comment,
-                    review_time_friendly: date
-                }
+                    excerpt: $scope.comment,
+                    time_created: date
             };
             $scope.reviews.push($scope.review);
             $scope.commentName = null;

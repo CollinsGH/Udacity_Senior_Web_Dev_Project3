@@ -7,10 +7,10 @@
     "body-parser": "^1.15.2",
     "compression": "^1.5.2",
     "express": "^4.13.3",
-    "google-images": "^1.0.0",
     "minimist": "^1.2.0",
     "path": "^0.12.7",
-    "request": "^2.73.0"
+    "request": "^2.73.0",
+    "yelp": "^1.0.1"
   },
   "devDependencies": {
     "bower": "^1.7.9",

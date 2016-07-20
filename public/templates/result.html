@@ -4,13 +4,17 @@
         <h2 class="panel-title">{{restaurant.name}}</h2>
     </div>
     <div class="panel-body">
-        <img class="card-img-top" ng-if="restaurant.featured_image != ''" src={{restaurant.featured_image}} alt="Image for {{restaurant.name}}" style="width:50px;height:50px;">
-        <p ng-if="restaurant.featured_image == ''">Image Not Available For {{restaurant.name}}</p>
-        <p>Address - {{restaurant.location.address}}</p>
-        <p>Cuisine - {{restaurant.cuisines}}</p>
-        <p>Average Cost for 2 People - {{restaurant.currency}}{{restaurant.average_cost_for_two}}</p>
+        <img class="card-img-top" ng-if="restaurant.image_url != ''" src={{restaurant.image_url}} alt="Image for {{restaurant.name}}" style="width:50px;height:50px;">
+        <p ng-if="restaurant.image_url == ''">Image Not Available For {{restaurant.name}}</p>
+        <p>Address -
+            <span ng-repeat="addr in restaurant.location.display_address">{{$first ? '' : $last ? ' , ' : ', '}}{{addr}}</span>
+        </p>
+        <p> Cuisine -
+            <span ng-repeat="cat in restaurant.categories">{{$first ? '' : $last ? ' , ' : ', '}}{{cat[0]}}</span>
+        </p>
+        <p>Phone - {{restaurant.phone}}</p>
         <p>
-            <b>(<i>Rating:</i> {{restaurant.user_rating.aggregate_rating}})</b></br>
+            <b>(<i>Rating:</i> {{restaurant.rating}})</b></br>
             <i class="fa" ng-class="{'fa-star': rate.i > 0, 'fa-star-o': rate.i == 0 , 'fa-star-half-o': rate.i < 0 }" ng-repeat="rate in ratings" aria-hidden="true"></i>
         </p>
         <p>
