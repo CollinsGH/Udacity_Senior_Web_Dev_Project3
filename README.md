@@ -1,5 +1,5 @@
 # Restaurant Reviewer
-Accessibility First, Mobile First Restaurant Reviewing Application. Third Project in the Udacity Senior Web Developer Nanodegree Program.
+Accessibility First, Mobile First Restaurant Reviewing Application. Third Project in the Udacity Senior Web Developer Nanodegree Program. Project Features extensive accessibility help using Aria.
 
 ##Technologies Used:
 [ECMAScript 6](http://es6-features.org/)
