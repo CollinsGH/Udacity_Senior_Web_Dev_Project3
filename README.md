@@ -1,6 +1,8 @@
 # Restaurant Reviewer
 Accessibility First, Mobile First Restaurant Reviewing Application. Third Project in the Udacity Senior Web Developer Nanodegree Program. Project Features extensive accessibility help using Aria.
 
+##[DEMO](https://rest-review-amr.herokuapp.com)
+
 ##Technologies Used:
 [ECMAScript 6](http://es6-features.org/)
 
@@ -40,6 +42,3 @@ This will run gulp serve, which will Compile, Collect & Minify all the Required 
 
 ### Chrome High Contrast Mode
 ![image](https://github.com/arjunmitrareddy/Udacity_Senior_Web_Dev_Project3/blob/master/screens/2.png)
-
-##[DEMO](https://rest-review-amr.herokuapp.com) **
-**Due to restrictions of Zomato API, the search results are better running locally  
