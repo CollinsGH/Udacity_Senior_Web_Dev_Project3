@@ -61,22 +61,22 @@
                 rstCtrl.filterSet = true;
                 rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, function(rest) { return rest.user_rating.aggregate_rating; });
             }
-            else if (filter == 'ratingH') {
+            if (filter == 'ratingH') {
                 rstCtrl.resultMessage = "Search Results with Ratings high to low";
                 rstCtrl.filterSet = true;
                 rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, function(rest) { return rest.user_rating.aggregate_rating; }).reverse();
             }
-            else if (filter == 'price') {
+            if (filter == 'price') {
                 rstCtrl.resultMessage = "Search Results with Ratings low to high";
                 rstCtrl.filterSet = true;
                 rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, function(rest) { return rest.average_cost_for_two })
             }
-            else if (filter == 'priceH') {
+            if (filter == 'priceH') {
                 rstCtrl.resultMessage = "Search Results with price high to low";
                 rstCtrl.filterSet = true;
                 rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, function(rest) { return rest.average_cost_for_two }).reverse();
             }
-            else if (filter == 'cuisine') {
+            if (filter == 'cuisine') {
                 rstCtrl.resultMessage = "Search Results with price low to high";
                 rstCtrl.filterSet = true;
                 rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, function(rest) { return rest.cuisines; });
