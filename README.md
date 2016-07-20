@@ -21,7 +21,7 @@ CSS3
 [Babel](https://babeljs.io/)
 
 ##API Used for Fetching Restaurants Information:
-[Zomato API](https://developers.zomato.com/api)
+[Yelp API v2](https://www.yelp.com/developers/documentation/v2/)
 
 ##Instructions to Run the Application (PRODUCTION):
 - Installing dependencies:
