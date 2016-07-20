@@ -12,7 +12,7 @@
     function reviewModalController($scope, $uibModalInstance, reviews, $location, $timeout) {
         $scope.reviews = reviews;
         $scope.ok = function () {
-            $uibModalInstance.close($scope.selected.item);
+            $uibModalInstance.close();
         };
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');

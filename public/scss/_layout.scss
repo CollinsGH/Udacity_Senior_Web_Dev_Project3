@@ -102,7 +102,7 @@ legend {
   position: absolute;
   top: -400px;
   left: 0;
-  background: red;
+  background: #b60000;
   color: $white !important;
   font-weight: bold;
   padding: 8px;
@@ -114,18 +114,15 @@ legend {
   font-weight: bold;
 }
 .skip-link-nonab {
-  background: red;
+  background: #b60000;
   color: $white !important;
   font-weight: bold;
   padding: 8px;
   z-index: 100;
-  opacity: 0;
 }
 .skip-link-nonab:focus {
-  top: 0;
   color: $white !important;
   font-weight: bold;
-  opacity: 1;
 }
 .contrast-scheme {
   color: $white;
@@ -133,4 +130,11 @@ legend {
 }
 .label-width {
   width: auto !important;
+}
+.card-link {
+  color: #00578c !important;
+}
+#closeModalButton {
+  color: $black !important;
+  opacity: 1 !important
 }

@@ -13,7 +13,9 @@
         rstCtrl.fetchingRest = false;
         rstCtrl.searchQuery = null;
         rstCtrl.restaurants = [];
+        rstCtrl.resultMessage = "Search Results";
         rstCtrl.getRestuarants = function () {
+            rstCtrl.resultMessage = "Search Results";
             rstCtrl.fetchingRest = true;
             $rootScope.hasResults = true;
             rstCtrl.restaurants = [];
@@ -40,27 +42,42 @@
                     }, 0);
                 })
         };
+        rstCtrl.setFocusToResults = function() {
+            $timeout(function() {
+                if (rstCtrl.restaurants.length > 0) {
+                    $('#yesResults').focus();
+                }
+                else {
+                    $('#noResults').focus();
+                }
+            }, 0);
+        };
         rstCtrl.typeFilter = null;
 
         rstCtrl.filterSet = false;
         rstCtrl.sortBy = function(filter) {
             if (filter == 'rating') {
-                  rstCtrl.filterSet = true;
+                rstCtrl.resultMessage = "Search Results With Cuisines in Alphabetical Order";
+                rstCtrl.filterSet = true;
                 rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, function(rest) { return rest.user_rating.aggregate_rating; });
             }
             else if (filter == 'ratingH') {
+                rstCtrl.resultMessage = "Search Results with Ratings high to low";
                 rstCtrl.filterSet = true;
                 rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, function(rest) { return rest.user_rating.aggregate_rating; }).reverse();
             }
             else if (filter == 'price') {
+                rstCtrl.resultMessage = "Search Results with Ratings low to high";
                 rstCtrl.filterSet = true;
                 rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, function(rest) { return rest.average_cost_for_two })
             }
             else if (filter == 'priceH') {
+                rstCtrl.resultMessage = "Search Results with price high to low";
                 rstCtrl.filterSet = true;
                 rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, function(rest) { return rest.average_cost_for_two }).reverse();
             }
             else if (filter == 'cuisine') {
+                rstCtrl.resultMessage = "Search Results with price low to high";
                 rstCtrl.filterSet = true;
                 rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, function(rest) { return rest.cuisines; });
             }
@@ -69,6 +86,13 @@
             rstCtrl.filterSet = false;
             rstCtrl.typeFilter = '';
             rstCtrl.restaurants = angular.copy(rstCtrl.backup);
+            rstCtrl.resultMessage = "Search Results After Clearing Filter";
+            $('html, body').animate({ scrollTop: $('.top-container').height() }, 1000);
+            $timeout(function() {
+                if (rstCtrl.restaurants.length > 0) {
+                    $('#yesResults').focus();
+                }
+            }, 0);
         };
         rstCtrl.setFocusToFilterMenu = function() {
             $timeout(function() {

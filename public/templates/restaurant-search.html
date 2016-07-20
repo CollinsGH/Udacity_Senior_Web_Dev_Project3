@@ -14,7 +14,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" ng-if="rstCtrl.restaurants.length">
                     <label class="col-md-4 control-label contrast-scheme label-width" aria-hidden="true" for="filters_menu">Filter By: </label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
@@ -26,6 +26,7 @@
                                 <option aria-posinset="5" aria-setsize="6" value="price">Price-Low</option>
                                 <option aria-posinset="6" aria-setsize="6" value="priceH">Price-High</option>
                             </select>
+                            <input type="button" value="Set" aria-label="Set Filter" class="btn btn-default" tabindex="0" ng-click="rstCtrl.setFocusToResults()">
                         </div>
                     </div>
                 </div>
@@ -35,7 +36,7 @@
 </header>
 <main>
     <div class="container-fluid results-container" id="results-container">
-        <div class="row" style="text-align: center" tabindex="0" id="yesResults" aria-label="Search Results">
+        <div class="row" style="text-align: center" tabindex="0" id="yesResults" aria-label="{{rstCtrl.resultMessage}}">
             <div class="form-group">
                 <label class="col-md-4 control-label" aria-hidden="true"></label>
                 <div class="col-md-4 inputGroupContainer">

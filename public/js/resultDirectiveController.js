@@ -37,7 +37,7 @@
         $scope.openReviewsModal = function(size) {
             var modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: 'reviews.html',
+                templateUrl: '/templates/modalContent.html',
                 controller: 'reviewModalController',
                 size: size,
                 resolve: {
