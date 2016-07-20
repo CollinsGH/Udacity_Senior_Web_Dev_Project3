@@ -13,6 +13,7 @@
     "request": "^2.73.0"
   },
   "devDependencies": {
+    "bower": "^1.7.9",
     "del": "^2.2.1",
     "gulp": "^3.9.0",
     "gulp-angular-templatecache": "^2.0.0",
@@ -40,7 +41,7 @@
     "dep": "npm install && bower install",
     "start": "gulp serve",
     "serve": "gulp serve",
-    "postinstall" : "bower install"
+    "postinstall": "bower install"
   },
   "author": "Arjun Mitra Reddy Donthala",
   "license": "MIT"
