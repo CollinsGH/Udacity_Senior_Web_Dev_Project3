@@ -1,0 +1,62 @@
+<div class="spinner" ng-if="showLoader"></div>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h2 class="panel-title">{{restaurant.name}}</h2>
+    </div>
+    <div class="panel-body">
+        <img class="card-img-top" ng-if="restaurant.featured_image != ''" src={{restaurant.featured_image}} alt="Image for {{restaurant.name}}" style="width:50px;height:50px;">
+        <p ng-if="restaurant.featured_image == ''">Image Not Available For {{restaurant.name}}</p>
+        <p>Address - {{restaurant.location.address}}</p>
+        <p>Cuisine - {{restaurant.cuisines}}</p>
+        <p>Average Cost for 2 People - {{restaurant.currency}}{{restaurant.average_cost_for_two}}</p>
+        <p>
+            <b>(<i>Rating:</i> {{restaurant.user_rating.aggregate_rating}})</b></br>
+            <i class="fa" ng-class="{'fa-star': rate.i > 0, 'fa-star-o': rate.i == 0 , 'fa-star-half-o': rate.i < 0 }" ng-repeat="rate in ratings" aria-hidden="true"></i>
+        </p>
+        <p>
+            <button class="btn btn-primary" ng-click="getReviews()">View All Reviews</button>
+        </p>
+    </div>
+    <div class="panel-footer">
+        <a href="{{restaurant.url}}" class="card-link">Website</a>
+    </div>
+</div>
+<script type="text/ng-template" id="reviews.html">
+    <a href="#namebox" ng-click="setFocusToReview()" ng-keyup="$event.keyCode == 13 && setFocusToReview()" class="skip-link">Skip to Adding Review</a>
+    <div tabindex="0" aria-label="Reviews Found For The Restaurant" id="yesReviews">
+        <review-directive id="review-{{$index}}" tabindex="0" ng-if="reviews.length > 0" ng-repeat="review in reviews" review="review.review"></review-directive>
+    </div>
+    <div tabindex="0" id="noReviews" ng-if="reviews.length <= 0">No Reviews Found</div>
+    <div class="container-fluid">
+        <form class="well form-horizontal" action="" onsubmit="return false"  id="review_form">
+            <fieldset>
+                <legend>Add Your Review</legend>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="namebox">Name: *</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
+                            <input id="namebox" name="name" autocomplete="name" aria-label="Name" aria-required="true" type="text" class="form-control" ng-model="commentName" required placeholder="Enter Your Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="reviewbox">Review: *</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-comments" aria-hidden="true"></i></span>
+                            <textarea id="reviewbox" rows="8" cols="50" class="form-control" aria-label="Review" aria-required="true" ng-model="comment" placeholder="Add a Review"> </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" aria-hidden="true"></label>
+                    <div class="col-md-4">
+                        <input type="button" aria-describedby="buttonEnableCondition" value="Submit Review" id="rsubmit" ng-click="gather()" class="form-control btn btn-primary" ng-disabled="!commentName || !comment || commentName == '' || comment == ''">
+                        <span id="buttonEnableCondition">Please Fill All Fields With * To Enable Button</span>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</script>
