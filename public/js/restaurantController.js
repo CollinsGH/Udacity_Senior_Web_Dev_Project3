@@ -41,7 +41,7 @@
                 .then((data) => {
                     var defer = $q.defer();
                     var latLong;
-                    serviceConnectorFactory.get("http://ipinfo.io").then((ipinfo) => {
+                    serviceConnectorFactory.get(`${location.protocol}//ipinfo.io`).then((ipinfo) => {
                         latLong = ipinfo.loc.split(",");
                         var from = new google.maps.LatLng(parseFloat(latLong[0]), parseFloat(latLong[1]));
                         rstCtrl.from = from;
