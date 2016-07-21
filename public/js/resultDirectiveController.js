@@ -7,9 +7,9 @@
     angular.module('restrevirew')
         .controller('resultDirectiveController', resultDirectiveController);
 
-    resultDirectiveController.$inject = ['$scope', '$uibModal', 'serviceConnectorFactory', '$timeout'];
+    resultDirectiveController.$inject = ['$scope', '$uibModal', 'serviceConnectorFactory'];
     /* @ngInject */
-    function resultDirectiveController($scope, $uibModal, serviceConnectorFactory, $timeout) {
+    function resultDirectiveController($scope, $uibModal, serviceConnectorFactory) {
         $scope.rate = $scope.restaurant.rating.toString().split(".");
         $scope.main = parseInt($scope.rate[0]);
         $scope.point = parseInt($scope.rate[1]);
@@ -32,8 +32,8 @@
         $scope.getReviews = function () {
             $scope.reviews = [];
             serviceConnectorFactory.post('/getReviews', {restID: $scope.restaurant.id})
-                .then(function (data) {
-                    _.forEach(data.reviews, function (review) {
+                .then((data) => {
+                    _.forEach(data.reviews, (review) => {
                         var date = new Date(review.time_created * 1000);
                         if (date.getDate() != null || date.getFullYear() != null) {
                             review.time_created = monthNames[date.getMonth()]+ " " + date.getDate() + ", " + date.getFullYear()

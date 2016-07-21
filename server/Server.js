@@ -23,13 +23,12 @@ export default class Server {
         this._app.use(bodyParser.json());
         this._serveStaticFiles();
         this._app.post('/getRest', (req, res) => {
-            console.log(req.body.query);
             var query = req.body.query.replace(" ", '%2B');
             yelp.search({ term: 'restaurant', location: query })
-                .then(function (data) {
+                .then((data) => {
                     res.json(data);
                 })
-                .catch(function (err) {
+                .catch((err) => {
                     console.error(err);
                 });
         });
@@ -37,7 +36,7 @@ export default class Server {
             var id = req.body.restID;
 
             yelp.business(id)
-                .then((function (data) {
+                .then(((data) => {
                     res.json(data);
                 }));
         });

@@ -43,29 +43,30 @@ gulp.task('wire-dep', () => {
 });
 
 gulp.task('copy', () => {
-    var assets = plugins.useref({searchPath: './'});
-    var cssFilter = plugins.filter('**/*.css', {restore: true});
-    var jsFilter = plugins.filter('**/*.js', {restore: true});
     return mergeStream(
         gulp.src('public/imgs/**/*').pipe(plugins.imagemin({optimizationLevel: 4})).pipe(gulp.dest('build/public/imgs/')),
         gulp.src([
             'bower_components/bootstrap/fonts/*',
             'bower_components/font-awesome/fonts/*'
         ]).pipe(gulp.dest('build/public/fonts')),
-        gulp.src('public/templates/*.html').pipe(gulp.dest('build/public/templates')),
-        gulp.src('public/index.html').pipe(plugins.plumber()).pipe(assets).pipe(cssFilter).pipe(plugins.csso({comments: false})).pipe(plugins.sourcemaps.init()).pipe(plugins.sourcemaps.write('./')).pipe(cssFilter.restore)
-            .pipe(jsFilter).pipe(plugins.sourcemaps.init()).pipe(plugins.uglify()).pipe(plugins.sourcemaps.write('./')).pipe(jsFilter.restore)
-            .pipe(gulp.dest('build/public'))
+        gulp.src('public/templates/*.html').pipe(gulp.dest('build/public/templates'))
     )
+});
+
+gulp.task('babelify-client', () => {
+    var assets = plugins.useref({searchPath: './'});
+    var cssFilter = plugins.filter('**/*.css', {restore: true});
+    var jsFilter = plugins.filter('**/*.js', {restore: true});
+    gulp.src('public/index.html').pipe(plugins.plumber()).pipe(assets).pipe(cssFilter).pipe(plugins.csso({comments: false})).pipe(plugins.sourcemaps.init()).pipe(plugins.sourcemaps.write('./')).pipe(cssFilter.restore)
+        .pipe(jsFilter).pipe(plugins.sourcemaps.init()).pipe(plugins.babel({stage: 1})).pipe(plugins.uglify()).pipe(plugins.sourcemaps.write('./')).pipe(jsFilter.restore)
+        .pipe(gulp.dest('build/public'))
 });
 
 gulp.task('babelify-server', () => {
     return gulp.src('server/**/*.js')
-        .pipe(plugins.sourcemaps.init())
         .pipe(plugins.babel({stage: 1}))
-      //  .pipe(plugins.uglify())
+        .pipe(plugins.uglify())
         .on('error', plugins.util.log.bind(plugins.util))
-        .pipe(plugins.sourcemaps.write('./'))
         .pipe(gulp.dest('build/server'));
 });
 
@@ -115,5 +116,5 @@ gulp.task('server', () => {
 
 
 gulp.task('serve', (callback) => {
-    runSequence('clean', 'css', 'wire-dep', 'copy', 'cache-templates', 'babelify-server','watch', 'server', callback);
+    runSequence('clean', 'css', 'wire-dep', 'copy', 'babelify-client', 'cache-templates', 'babelify-server','watch', 'server', callback);
 });

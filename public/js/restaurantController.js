@@ -10,57 +10,14 @@
     /* @ngInject */
     function restaurantController($q, serviceConnectorFactory, $rootScope, $timeout, $location) {
         var rstCtrl = this;
-        $timeout(function(){
-                var sb = $('#searchbox');
-                sb.removeAttr("aria-expanded");
-                sb.removeAttr("aria-owns");
-                var fm = $('#filters_menu');
-                fm.removeAttr("aria-expanded");
-                fm.removeAttr("aria-owns");
-                $('.dropdown-menu').each(function(index, elem) {
-                    if ($(elem).hasClass('ng-hide')) {
-                        $(elem).removeAttr('role')
-                    }
-                    else {
-                        $(elem).attr('role', 'listbox');
-                    }
-                })
-        }, 10);
-
         rstCtrl.process1 = function() {
-            $timeout(function(){
-                var sb = $('#searchbox');
-                sb.removeAttr("aria-expanded");
-                sb.removeAttr("aria-owns");
-                $('.dropdown-menu').each(function(index, elem) {
-                    if ($(elem).children().length < 1) {
-                        $(elem).removeAttr('role')
-                    }
-                    if ($(elem).hasClass('ng-hide')) {
-                        $(elem).removeAttr('role')
-                    }
-                    else {
-                        $(elem).attr('role', 'listbox');
-                    }
-                })
+            $timeout(() => {
+                searchBoxHandler();
             }, 10);
         };
         rstCtrl.process2 = function() {
-            $timeout(function(){
-                var fm = $('#filters_menu');
-                fm.removeAttr("aria-expanded");
-                fm.removeAttr("aria-owns");
-                $('.dropdown-menu').each(function(index, elem) {
-                    if ($(elem).children().length < 1) {
-                        $(elem).removeAttr('role')
-                    }
-                    if ($(elem).hasClass('ng-hide')) {
-                        $(elem).removeAttr('role')
-                    }
-                    else {
-                        $(elem).attr('role', 'listbox');
-                    }
-                })
+            $timeout(() => {
+                filterMenuHandler();
             }, 10);
         };
         rstCtrl.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut',
@@ -81,16 +38,16 @@
             $rootScope.hasResults = true;
             rstCtrl.restaurants = [];
             serviceConnectorFactory.post('/getRest', {query : rstCtrl.searchQuery})
-                .then(function (data) {
+                .then((data) => {
                     var defer = $q.defer();
                     var latLong;
-                    serviceConnectorFactory.get("http://ipinfo.io").then(function(ipinfo){
+                    serviceConnectorFactory.get("http://ipinfo.io").then((ipinfo) => {
                         latLong = ipinfo.loc.split(",");
                         var from = new google.maps.LatLng(parseFloat(latLong[0]), parseFloat(latLong[1]));
                         rstCtrl.from = from;
                         var to   = new google.maps.LatLng(49.321, 8.789);
                         var dist = google.maps.geometry.spherical.computeDistanceBetween(from, to);
-                        _.forEach(data.businesses, function(obj) {
+                        _.forEach(data.businesses, (obj) => {
                             obj.distance = dist;
                             rstCtrl.restaurants.push(obj);
                         });
@@ -100,14 +57,13 @@
                         return defer.promise;
                     });
                 })
-                .then(function () {
+                .then(() => {
                     rstCtrl.process2();
                     rstCtrl.fetchingRest = false;
                     $('html, body').animate({ scrollTop: $('.top-container').height() }, 1000);
                 })
         };
         rstCtrl.typeFilter = null;
-
         rstCtrl.filterSet = false;
         rstCtrl.sortBy = function(filter) {
             rstCtrl.process2();
@@ -119,27 +75,27 @@
             if (filter == rstCtrl.filters[1]) {
                 rstCtrl.resultMessage = "Search Results With Cuisines in Alphabetical Order";
                 rstCtrl.filterSet = true;
-                rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, function(rest) { return rest.categories[0][0]; });
+                rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, (rest) =>  rest.categories[0][0] );
             }
             if (filter == rstCtrl.filters[2]) {
                 rstCtrl.resultMessage = "Search Results With Cuisines in Reverse Alphabetical Order";
                 rstCtrl.filterSet = true;
-                rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, function(rest) { return rest.categories[0][0]; }).reverse();
+                rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, (rest) => rest.categories[0][0]).reverse();
             }
             if (filter == rstCtrl.filters[3]) {
                 rstCtrl.resultMessage = "Search Results with Ratings low to high";
                 rstCtrl.filterSet = true;
-                rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, function(rest) { return rest.rating; })
+                rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, (rest) => rest.rating)
             }
             if (filter == rstCtrl.filters[4]) {
                 rstCtrl.resultMessage = "Search Results with ratings high to low";
                 rstCtrl.filterSet = true;
-                rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, function(rest) { return rest.rating; }).reverse();
+                rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, (rest) => rest.rating).reverse();
             }
             if (filter == rstCtrl.filters[5]) {
                 rstCtrl.resultMessage = "Search Results with distance near to far";
                 rstCtrl.filterSet = true;
-                rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, function(rest) { return Math.abs(rstCtrl.from - rest.distance); });
+                rstCtrl.restaurants = _.sortBy(rstCtrl.restaurants, (rest) => Math.abs(rstCtrl.from - rest.distance));
             }
             if (rstCtrl.filterSet) {
                 $('html, body').animate({ scrollTop: $('.top-container').height() }, 1000);
@@ -152,65 +108,51 @@
             rstCtrl.resultMessage = "Search Results After Clearing Filter";
             $('html, body').animate({ scrollTop: $('.top-container').height() }, 1000);
         };
-        function clear(index, elem) {
-            $timeout(function() {
-                $('.dropdown-menu').each(function(index, elem) {
-                    if ($(elem).hasClass('ng-hide')) {
-                        $(elem).removeAttr('role')
-                    }
-                    else {
-                        $(elem).attr('role', 'listbox');
-                    }
-                })
-            }, 10)
-        }
         rstCtrl.setFocusToFilterMenu = function() {
-            $timeout(function() {
+            $timeout(() => {
                 $('#filters_menu').focus();
                 $location.path('/welcome');
             }, 0);
         };
+        function dropDownHandler() {
+            $('.dropdown-menu').each((index, elem) => {
+                if ($(elem).children().length < 1) {
+                    $(elem).removeAttr('role')
+                }
+                if ($(elem).hasClass('ng-hide')) {
+                    $(elem).removeAttr('role')
+                }
+                else {
+                    $(elem).attr('role', 'listbox');
+                }
+            })
+        }
+        function searchBoxHandler() {
+            var sb = $('#searchbox');
+            sb.removeAttr("aria-expanded");
+            sb.removeAttr("aria-owns");
+            dropDownHandler();
+        }
+        function filterMenuHandler() {
+            var fm = $('#filters_menu');
+            fm.removeAttr("aria-expanded");
+            fm.removeAttr("aria-owns");
+            dropDownHandler();
+        }
+        function callStack() {
+            searchBoxHandler();
+            filterMenuHandler();
+            dropDownHandler();
+        }
         $(document).ready(function() {
-            $(document.body).on('click focus blur change hover keyup keydown focusin focusout mouseenter mouseleave', '.dropdown-menu', function(){
-                $timeout(function(){
-                    var sb = $('#searchbox');
-                    sb.removeAttr("aria-expanded");
-                    sb.removeAttr("aria-owns");
-                    var fm = $('#filters_menu');
-                    fm.removeAttr("aria-expanded");
-                    fm.removeAttr("aria-owns");
-                    $('.dropdown-menu').each(function(index, elem) {
-                        if ($(elem).children().length < 1) {
-                            $(elem).removeAttr('role')
-                        }
-                        if ($(elem).hasClass('ng-hide')) {
-                            $(elem).removeAttr('role')
-                        }
-                        else {
-                            $(elem).attr('role', 'listbox');
-                        }
-                    })
+            $(document.body).on('click focus blur change hover keyup keydown focusin focusout mouseenter mouseleave', '.dropdown-menu', () => {
+                $timeout(() => {
+                    callStack();
                 }, 10);
             });
-            $(document.body).on('click keyup keydown', function(){
-                $timeout(function(){
-                    var sb = $('#searchbox');
-                    sb.removeAttr("aria-expanded");
-                    sb.removeAttr("aria-owns");
-                    var fm = $('#filters_menu');
-                    fm.removeAttr("aria-expanded");
-                    fm.removeAttr("aria-owns");
-                    $('.dropdown-menu').each(function(index, elem) {
-                        if ($(elem).children().length < 1) {
-                            $(elem).removeAttr('role')
-                        }
-                        if ($(elem).hasClass('ng-hide')) {
-                            $(elem).removeAttr('role')
-                        }
-                        else {
-                            $(elem).attr('role', 'listbox');
-                        }
-                    })
+            $(document.body).on('click keyup keydown', () => {
+                $timeout(() => {
+                    callStack();
                 }, 10);
             });
         });

@@ -36,7 +36,7 @@
             $scope.reviews.push($scope.review);
             $scope.commentName = null;
             $scope.comment = null;
-            $timeout(function() {
+            $timeout(() => {
                 if ($scope.reviews.length > 0) {
                     $('#review-' + ($scope.reviews.length-1)).focus();
                 }

@@ -19,16 +19,11 @@
         };
         function getHandler(url, config) {
             return $http.get(url, config)
-                .then(function (response) {
-                    return response.data;
-                });
+                .then((response) => response.data);
         }
         function postHandler(url, payload) {
             return $http.post(url, payload)
-                .then(function (response) {
-                    return response.data;
-                });
+                .then((response) => response.data);
         }
     }
-
 })();
