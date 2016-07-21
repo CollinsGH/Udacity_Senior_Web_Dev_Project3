@@ -20,6 +20,7 @@
         $scope.commentName = null;
         $scope.comment = null;
         $scope.profilePic = null;
+        $scope.userRating = null;
         $scope.gather = function() {
             var dateArr = new Date().toDateString().split(" ");
             var date = dateArr[1]+ " " + dateArr[2] + ", " + dateArr[3];
@@ -28,6 +29,7 @@
                         name: $scope.commentName,
                         image_url: $scope.profilePic
                     },
+                    rating: $scope.userRating,
                     excerpt: $scope.comment,
                     time_created: date
             };

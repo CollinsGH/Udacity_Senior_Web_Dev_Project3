@@ -141,3 +141,6 @@ legend {
   text-align: center;
   background: white;
 }
+.btn:focus, a:focus, .skip-link-nonab:focus, button:focus {
+  outline: $black solid thick;
+}

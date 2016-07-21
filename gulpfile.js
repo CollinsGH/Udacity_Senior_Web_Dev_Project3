@@ -53,7 +53,7 @@ gulp.task('copy', () => {
             'bower_components/font-awesome/fonts/*'
         ]).pipe(gulp.dest('build/public/fonts')),
         gulp.src('public/templates/*.html').pipe(gulp.dest('build/public/templates')),
-        gulp.src('public/index.html').pipe(plugins.plumber()).pipe(assets).pipe(cssFilter).pipe(plugins.sourcemaps.init()).pipe(plugins.csso()).pipe(plugins.sourcemaps.write('./')).pipe(cssFilter.restore)
+        gulp.src('public/index.html').pipe(plugins.plumber()).pipe(assets).pipe(cssFilter).pipe(plugins.csso({comments: false})).pipe(plugins.sourcemaps.init()).pipe(plugins.sourcemaps.write('./')).pipe(cssFilter.restore)
             .pipe(jsFilter).pipe(plugins.sourcemaps.init()).pipe(plugins.uglify()).pipe(plugins.sourcemaps.write('./')).pipe(jsFilter.restore)
             .pipe(gulp.dest('build/public'))
     )

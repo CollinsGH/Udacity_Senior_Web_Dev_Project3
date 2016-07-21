@@ -24,7 +24,16 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-picture-o" aria-hidden="true"></i></span>
-                        <input id="imageLink" class="form-control" aria-label="Review" ng-model="profilePic" placeholder="Add a Link to Your Picture"> </input>
+                        <input id="imageLink" class="form-control" aria-label="Review" ng-model="profilePic" placeholder="Add a Link to Your Picture">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="userRating">Rating: *</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span uib-rating ng-model="userRating" id="userRating" max=5 read-only="false" on-hover="hoveringOver(value)" on-leave="overStar = null" aria-labelledby="default-rating"></span>
                     </div>
                 </div>
             </div>
@@ -38,10 +47,11 @@
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
                 <label class="col-md-4 control-label" aria-hidden="true"></label>
                 <div class="col-md-4">
-                    <input type="button" aria-describedby="buttonEnableCondition" value="Submit Review" id="rsubmit" ng-click="gather()" class="form-control btn btn-primary" ng-disabled="!commentName || !comment || commentName == '' || comment == ''">
+                    <input type="button" aria-describedby="buttonEnableCondition" value="Submit Review" id="rsubmit" ng-click="gather()" class="form-control btn btn-primary" ng-disabled="!commentName || !comment || commentName == '' || comment == '' || !userRating">
                     <span id="buttonEnableCondition">Please Fill All Fields With * To Enable Button</span>
                 </div>
             </div>

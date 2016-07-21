@@ -33,6 +33,9 @@
                 sb.removeAttr("aria-expanded");
                 sb.removeAttr("aria-owns");
                 $('.dropdown-menu').each(function(index, elem) {
+                    if ($(elem).children().length < 1) {
+                        $(elem).removeAttr('role')
+                    }
                     if ($(elem).hasClass('ng-hide')) {
                         $(elem).removeAttr('role')
                     }
@@ -48,6 +51,9 @@
                 fm.removeAttr("aria-expanded");
                 fm.removeAttr("aria-owns");
                 $('.dropdown-menu').each(function(index, elem) {
+                    if ($(elem).children().length < 1) {
+                        $(elem).removeAttr('role')
+                    }
                     if ($(elem).hasClass('ng-hide')) {
                         $(elem).removeAttr('role')
                     }
@@ -84,18 +90,18 @@
                         rstCtrl.from = from;
                         var to   = new google.maps.LatLng(49.321, 8.789);
                         var dist = google.maps.geometry.spherical.computeDistanceBetween(from, to);
-                        console.log(dist);
                         _.forEach(data.businesses, function(obj) {
                             obj.distance = dist;
                             rstCtrl.restaurants.push(obj);
-                            rstCtrl.process2();
                         });
+                        rstCtrl.process2();
                         rstCtrl.backup = angular.copy(rstCtrl.restaurants);
                         defer.resolve();
                         return defer.promise;
                     });
                 })
                 .then(function () {
+                    rstCtrl.process2();
                     rstCtrl.fetchingRest = false;
                     $('html, body').animate({ scrollTop: $('.top-container').height() }, 1000);
                 })
@@ -146,11 +152,67 @@
             rstCtrl.resultMessage = "Search Results After Clearing Filter";
             $('html, body').animate({ scrollTop: $('.top-container').height() }, 1000);
         };
+        function clear(index, elem) {
+            $timeout(function() {
+                $('.dropdown-menu').each(function(index, elem) {
+                    if ($(elem).hasClass('ng-hide')) {
+                        $(elem).removeAttr('role')
+                    }
+                    else {
+                        $(elem).attr('role', 'listbox');
+                    }
+                })
+            }, 10)
+        }
         rstCtrl.setFocusToFilterMenu = function() {
             $timeout(function() {
                 $('#filters_menu').focus();
                 $location.path('/welcome');
             }, 0);
         };
+        $(document).ready(function() {
+            $(document.body).on('click focus blur change hover keyup keydown focusin focusout mouseenter mouseleave', '.dropdown-menu', function(){
+                $timeout(function(){
+                    var sb = $('#searchbox');
+                    sb.removeAttr("aria-expanded");
+                    sb.removeAttr("aria-owns");
+                    var fm = $('#filters_menu');
+                    fm.removeAttr("aria-expanded");
+                    fm.removeAttr("aria-owns");
+                    $('.dropdown-menu').each(function(index, elem) {
+                        if ($(elem).children().length < 1) {
+                            $(elem).removeAttr('role')
+                        }
+                        if ($(elem).hasClass('ng-hide')) {
+                            $(elem).removeAttr('role')
+                        }
+                        else {
+                            $(elem).attr('role', 'listbox');
+                        }
+                    })
+                }, 10);
+            });
+            $(document.body).on('click keyup keydown', function(){
+                $timeout(function(){
+                    var sb = $('#searchbox');
+                    sb.removeAttr("aria-expanded");
+                    sb.removeAttr("aria-owns");
+                    var fm = $('#filters_menu');
+                    fm.removeAttr("aria-expanded");
+                    fm.removeAttr("aria-owns");
+                    $('.dropdown-menu').each(function(index, elem) {
+                        if ($(elem).children().length < 1) {
+                            $(elem).removeAttr('role')
+                        }
+                        if ($(elem).hasClass('ng-hide')) {
+                            $(elem).removeAttr('role')
+                        }
+                        else {
+                            $(elem).attr('role', 'listbox');
+                        }
+                    })
+                }, 10);
+            });
+        });
     }
 })();
