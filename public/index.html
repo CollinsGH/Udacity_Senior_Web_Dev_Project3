@@ -21,6 +21,7 @@
 </head>
 
 <body ui-view ng-class="{disableScroll: !hasResults, enableScroll: hasResults}">
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyBH5LH7IXNyN4MAAdCMv0_3Q2dmHnnuiOo&libraries=geometry"></script>
     <!-- build:js js/lib.js -->
     <!-- bower:js -->
     <script src="/bower_components/angular/angular.js"></script>
@@ -47,6 +48,5 @@
     <script src="/public/js/reviewModalController.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
-    <script src="https://maps.google.com/maps/api/js?sensor=true&key=AIzaSyBH5LH7IXNyN4MAAdCMv0_3Q2dmHnnuiOo&libraries=geometry"></script>
 </body>
 </html>
