@@ -1,11 +1,10 @@
-<div tabindex="0" aria-label="Reviews Found For The Restaurant" id="yesReviews">
+<div aria-label="Reviews Found For The Restaurant" id="yesReviews">
     <a href="#namebox" ng-click="setFocusToReview()" ng-keyup="$event.keyCode == 13 && setFocusToReview()" class="skip-link">Skip to Adding Review</a>
     <div class="modal-header">
         <button aria-label="Close Reviews Dialog Button" id="closeModalButton" type="button" class="close" ng-click="cancel()">&times;</button>
     </div>
-    <review-directive id="review-{{$index}}" tabindex="0" ng-if="reviews.length > 0" ng-repeat="review in reviews" review="review"></review-directive>
+    <review-directive id="review-{{$index}}" ng-if="reviews.length > 0" ng-repeat="review in reviews" review="review"></review-directive>
 </div>
-<div tabindex="0" id="noReviews" ng-if="reviews.length <= 0">No Reviews Found</div>
 <div class="container-fluid">
     <form class="well form-horizontal" action="" onsubmit="return false"  id="review_form">
         <fieldset>

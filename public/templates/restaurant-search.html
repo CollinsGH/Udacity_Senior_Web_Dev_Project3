@@ -3,12 +3,12 @@
     <div class="container-fluid top-container">
         <form class="well form-horizontal" action="" onsubmit="return false" id="search_form">
             <fieldset>
-                <legend><h1 class="contrast-scheme" tabindex="0">Search for Restaurants in US</h1></legend>
+                <legend><h1 class="contrast-scheme">Search for Restaurants in US</h1></legend>
                 <div class="form-group">
                     <label class="col-md-4 control-label contrast-scheme label-width" for="searchbox">Select State:</label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
-                            <input type="text" tabindex="0" autocomplete="off" id="searchbox" ng-model="rstCtrl.searchQuery" uib-typeahead="state for state in rstCtrl.states | filter:$viewValue | limitTo:10" class="form-control">
+                            <input type="text" autocomplete="off" id="searchbox" ng-model="rstCtrl.searchQuery" ng-keyup="rstCtrl.process1()" ng-change="rstCtrl.process1()" ng-focus="rstCtrl.process1()" ng-click="rstCtrl.process1()" uib-typeahead="state for state in rstCtrl.states | filter:$viewValue | limitTo:10" class="form-control">
                             <span tabindex="0" aria-label="Search Button" class="input-group-addon" ng-keyup="$event.keyCode == 13 && rstCtrl.getRestuarants()" ng-click="rstCtrl.getRestuarants()"><i class="fa fa-search" aria-hidden="true"></i></span>
                         </div>
                     </div>
@@ -18,7 +18,7 @@
                     <label class="col-md-4 control-label contrast-scheme label-width" aria-hidden="true" for="filters_menu">Filter By: </label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
-                            <input type="text" tabindex="0" autocomplete="off" id="filters_menu" ng-model="rstCtrl.typeFilter" uib-typeahead="state for state in rstCtrl.filters" typeahead-min-length="0" class="form-control">
+                            <input type="text" autocomplete="off" id="filters_menu" ng-keyup="rstCtrl.process2()" ng-change="rstCtrl.process2()" ng-focus="rstCtrl.process2()" ng-click="rstCtrl.process2()" ng-model="rstCtrl.typeFilter" uib-typeahead="state for state in rstCtrl.filters" typeahead-min-length="0" class="form-control">
                             <span tabindex="0"  aria-label="Set Filter Button" class="input-group-addon" ng-click="rstCtrl.sortBy(rstCtrl.typeFilter); rstCtrl.setFocusToResults()" ng-keyup="$event.keyCode == 13 && rstCtrl.sortBy(rstCtrl.typeFilter);$event.keyCode == 13 && rstCtrl.setFocusToResults()"><i class="fa fa-filter" aria-hidden="true"></i></span>
                         </div>
                     </div>
@@ -29,7 +29,7 @@
 </header>
 <main>
     <div class="container-fluid results-container" id="results-container">
-        <div class="row" style="text-align: center" tabindex="0" id="yesResults" aria-label="{{rstCtrl.resultMessage}}">
+        <div class="row" style="text-align: center" id="yesResults" aria-label="{{rstCtrl.resultMessage}}">
             <div class="form-group">
                 <label class="col-md-4 control-label" aria-hidden="true"></label>
                 <div class="col-md-4 inputGroupContainer">
@@ -38,7 +38,7 @@
             </div>
 
             <a href="#filters_menu" ng-click="rstCtrl.setFocusToFilterMenu()" ng-keyup="$event.keyCode == 13 && rstCtrl.setFocusToFilterMenu()" ng-if="rstCtrl.restaurants.length > 0" class="skip-link-nonab">Select A Filter</a>
-            <result-directive id="result-{{$index}}" tabindex="0" class="col-lg-offset-4 col-lg-4 col-md-offset-4 col-md-4 col-sm-12 col-xs-12" restaurant="restaurant" ng-if="rstCtrl.restaurants.length > 0" ng-repeat="restaurant in rstCtrl.restaurants"></result-directive>
+            <result-directive id="result-{{$index}}" class="col-lg-offset-4 col-lg-4 col-md-offset-4 col-md-4 col-sm-12 col-xs-12" restaurant="restaurant" ng-if="rstCtrl.restaurants.length > 0" ng-repeat="restaurant in rstCtrl.restaurants"></result-directive>
         </div>
     </div>
 </main>

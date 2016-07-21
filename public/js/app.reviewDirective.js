@@ -13,6 +13,7 @@
             scope: {
                 review: '='
             },
+            controller: 'reviewDirectiveController',
             templateUrl: '/templates/reviews.html'
         }
     }

@@ -5,7 +5,10 @@
     </div>
     <div class="panel-body">
         <p>{{review.excerpt}}</p>
-        <p>{{review.rating}}</p>
+        <p>
+            <b>(<i>Rating:</i> {{review.rating}})</b></br>
+            <i class="fa" ng-class="{'fa-star': rate.i > 0, 'fa-star-o': rate.i == 0 , 'fa-star-half-o': rate.i < 0 }" ng-repeat="rate in ratings" aria-hidden="true"></i>
+        </p>
     </div>
     <div class="panel-footer">
         <p>Reviewed {{review.time_created}}</p>
